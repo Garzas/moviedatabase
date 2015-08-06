@@ -3,7 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.0 rc3"
-
+    packagingOptions{
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
     defaultConfig {
         applicationId "com.example.kuba.moviedatabase"
         minSdkVersion 16
@@ -27,12 +29,12 @@ dependencies {
     compile 'javax.inject:javax.inject:1'
     compile 'io.reactivex:rxjava:1.0.10'
     compile 'io.reactivex:rxandroid:0.25.0'
-
+    compile 'com.android.support:recyclerview-v7:22.0.0'
     compile 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile 'com.squareup.dagger:dagger:1.2.1'
     compile "com.google.code.findbugs:jsr305:2.0.1"
     compile 'com.google.guava:guava:18.0'
-
+    compile 'com.jakewharton:butterknife:4.0.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
 
