@@ -11,7 +11,7 @@ public interface Retrofit {
     //https://www.omdbapi.com/
     //s,type,y,r,callback,v
 
-    @GET("?r=json")
+    @GET("/?r=json")
     Observable<Search> movieList(
             @Query("s") String name
     );
