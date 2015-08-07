@@ -1,6 +1,6 @@
 package com.example.kuba.moviedatabase;
 
-import com.example.kuba.moviedatabase.Models.Search;
+import com.example.kuba.moviedatabase.models.Search;
 
 import retrofit.http.GET;
 import retrofit.http.Query;

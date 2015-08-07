@@ -1,19 +1,28 @@
 package com.example.kuba.moviedatabase;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.appunite.rx.android.MoreViewActions;
-import com.example.kuba.moviedatabase.Presenters.MoviePresenter;
+import com.appunite.rx.android.MoreViewObservables;
+import com.example.kuba.moviedatabase.adapters.MoviesAdapter;
+import com.example.kuba.moviedatabase.helpers.LoadMoreHelper;
+import com.example.kuba.moviedatabase.presenters.MoviePresenter;
+import com.google.common.collect.ImmutableList;
 
-import rx.android.view.ViewActions;
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 
 public class MainActivity extends BaseActivity {
 
+    @Inject
+    MoviesAdapter myListViewAdapter;
+    @InjectView(R.id.listView)
+    RecyclerView recyclerView;
     private MoviePresenter presenter;
 
     @Override
@@ -21,8 +30,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView text= (TextView) findViewById(R.id.someText);
-
+        ButterKnife.inject(this);
 
         presenter = MainApplication
                 .fromApplication(getApplication())
@@ -36,10 +44,18 @@ public class MainActivity extends BaseActivity {
                 .plus(new Module())
                 .inject(this);
 
-        presenter.titleObservable()
-                .compose(lifecycleMainObservable.<String>bindLifecycle())
-                .subscribe(ViewActions.setText(text));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(myListViewAdapter);
 
+        presenter.titleObservable()
+                .compose(lifecycleMainObservable.<ImmutableList<MoviePresenter.AdapterMovies>>bindLifecycle())
+                        .subscribe(myListViewAdapter);
+
+//        MoreViewObservables.scroll(recyclerView)
+//                .filter(LoadMoreHelper.mapToNeedLoadMore(layoutManager, myListViewAdapter))
+//                .compose(lifecycleMainObservable.bindLifecycle())
+//                .subscribe(presenter.loadMoreObserver());
     }
 
 

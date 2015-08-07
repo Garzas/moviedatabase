@@ -1,18 +1,15 @@
-package com.example.kuba.moviedatabase.Daos;
+package com.example.kuba.moviedatabase.daos;
 
 import com.appunite.rx.ResponseOrError;
+import com.appunite.rx.android.MyAndroidSchedulers;
 import com.appunite.rx.operators.MoreOperators;
 import com.appunite.rx.operators.OperatorMergeNextToken;
-import com.appunite.rx.subjects.CacheSubject;
-import com.example.kuba.moviedatabase.Models.Movies;
-import com.example.kuba.moviedatabase.Models.Search;
+import com.example.kuba.moviedatabase.models.Search;
 import com.example.kuba.moviedatabase.Retrofit;
 import com.example.kuba.moviedatabase.schedulers.ObserveOnScheduler;
 import com.example.kuba.moviedatabase.schedulers.SubscribeOnScheduler;
-import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import rx.Observable;
@@ -56,6 +53,7 @@ public class MovieDao {
         search = loadMoreSubject.startWith((Object) null)
                 .lift(mergePostsNextToken)
                 .compose(ResponseOrError.<Search>toResponseOrErrorObservable())
+                .compose(MoreOperators.<Search>repeatOnError(MyAndroidSchedulers.NETWORK_SCHEDULER))
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler);
 

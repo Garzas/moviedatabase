@@ -6,13 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.example.kuba.moviedatabase.Fragments.ArrayListFragment;
-import com.example.kuba.moviedatabase.Fragments.ImageFragment;
+import com.example.kuba.moviedatabase.fragments.ArrayListFragment;
+import com.example.kuba.moviedatabase.fragments.ImageFragment;
 
 public class MainFragmentActivity extends FragmentActivity {
     static final int ITEMS = 10;

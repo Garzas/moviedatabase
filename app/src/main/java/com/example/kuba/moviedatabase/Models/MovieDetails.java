@@ -1,4 +1,4 @@
-package com.example.kuba.moviedatabase.Models;
+package com.example.kuba.moviedatabase.models;
 
 public class MovieDetails {
     private String Title;
